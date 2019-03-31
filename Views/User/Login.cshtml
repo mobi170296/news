@@ -2,30 +2,23 @@
     ViewBag.Title = "Đăng nhập tài khoản";
 }
 
-    <form method="post" action="">
-        <div class="form-group">
-            <label>Id</label>
-            <input class="form-control" name="id" />
-        </div>
-        <div class="form-group">
-            <label>Username</label>
-            <input class="form-control" name="username" />
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input class="form-control" type="password" name="password" />
-        </div>
-        <div class="form-group">
-            <label>role</label>
-            <input class="form-control" name="role" />
-        </div>
-        <div class="form-group">
-            <label>phone</label>
-            <input class="form-control" name="phone" />
-        </div>
-        <div class="form-group">
-            <label>email</label>
-            <input class="form-control" name="email" />
-        </div>
-        <button class="btn btn-primary">Post</button>
-    </form>
+<div class="card">
+    <div class="card-header">Đăng nhập</div>
+    <div class="card-body">
+        @if (ViewBag.error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.error</div>
+        }
+        <form action="" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="form-group">
+                <label>Tên đăng nhập</label>
+                <input class="form-control" type="text" name="username" placeholder="Tên đăng nhập" />
+            </div>
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <input class="form-control" type="password" name="password" placeholder="Mật khẩu" />
+            </div>
+            <button class="btn btn-primary" type="submit" name="login" value="login">Đăng nhập</button>
+        </form>
+    </div>
+</div>

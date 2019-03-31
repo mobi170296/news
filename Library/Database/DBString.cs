@@ -12,11 +12,11 @@ namespace NewsApplication.Library.Database
         {
             this.data = data;
         }
-        public string sqlValue()
+        public string SqlValue()
         {
             return "'" + this.data + "'";
         }
-        public object value()
+        public object Value()
         {
             return data;
         }

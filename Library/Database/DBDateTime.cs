@@ -16,11 +16,11 @@ namespace NewsApplication.Library.Database
         {
             this.data = new DateTime(year, month, day, hour, minute, second);
         }
-        public object value()
+        public object Value()
         {
             return this.data;
         }
-        public string sqlValue()
+        public string SqlValue()
         {
             return "'" + this.data.Year + "-" + this.data.Month + "-" + this.data.Day + " " + this.data.Hour + ":" + this.data.Minute + ":" + this.data.Second + "'";
         }

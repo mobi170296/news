@@ -8,7 +8,7 @@ namespace NewsApplication.Library.Database
 {
     public interface IDBDataType
     {
-        object value();
-        string sqlValue();
+        object Value();
+        string SqlValue();
     }
 }

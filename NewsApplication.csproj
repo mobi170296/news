@@ -162,6 +162,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Exception\InputException.cs" />
     <Compile Include="Global.asax.cs">
@@ -175,6 +176,7 @@
     <Compile Include="Library\Database\IDatabaseUtility.cs" />
     <Compile Include="Library\Database\IDBDataType.cs" />
     <Compile Include="Library\Database\MySQLUtility.cs" />
+    <Compile Include="Models\Authenticate.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostImage.cs" />
@@ -202,6 +204,7 @@
     <Content Include="Views\User\Info.cshtml" />
     <Content Include="Views\Layout\Header.cshtml" />
     <Content Include="Views\Layout\Footer.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -211,6 +214,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

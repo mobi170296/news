@@ -4,12 +4,88 @@ using System.Linq;
 using System.Web;
 using System.Configuration;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace NewsApplication.Library.Database
 {
     public class MySQLUtility : IDatabaseUtility
     {
         private MySqlConnection connection;
+        private string _select, _from, _join, _on, _where, _groupby, _having, _orderby, _order= "ASC", _limit;
+        public IDatabaseUtility select(string s)
+        {
+            this._select = s;
+            return this;
+        }
+        public IDatabaseUtility from(string s)
+        {
+            this._from = s;
+            return this;
+        }
+        public IDatabaseUtility join(string s)
+        {
+            this._join = s;
+            return this;
+        }
+        public IDatabaseUtility on(string s)
+        {
+            this._on = s;
+            return this;
+        }
+        public IDatabaseUtility where(string s)
+        {
+            this._where = s;
+            return this;
+        }
+        public IDatabaseUtility groupby(string s)
+        {
+            this._groupby = s;
+            return this;
+        }
+        public IDatabaseUtility having(string s)
+        {
+            this._having = s;
+            return this;
+        }
+        public IDatabaseUtility orderby(string s)
+        {
+            this._orderby = s;
+            return this;
+        }
+        public IDatabaseUtility limit(string s)
+        {
+            this._limit = s;
+            return this;
+        }
+        public IDatabaseUtility asc()
+        {
+            this._order = "ASC";
+            return this;
+        }
+        public IDatabaseUtility desc()
+        {
+            this._order = "DESC";
+            return this;
+        }
+        public IDataReader Execute()
+        {
+            try
+            {
+                string query = "SELECT " + this._select + " FROM " + this._from +
+                (this._join != null ? " JOIN " + this._join : "") +
+                (this._join != null && this._on != null ? " ON " + this._on : "") +
+                (this._where != null ? " WHERE " + this._where : "") +
+                (this._groupby != null ? " GROUP BY " + this._groupby : "") +
+                (this._having != null ? " HAVING " + this._having : "") +
+                (this._orderby != null ? " ORDER BY " + this._orderby + " " + this._order +  " " : "") + 
+                (this._limit != null ? " LIMIT " + this._limit : "");
+                MySqlCommand command = this.connection.CreateCommand();
+                command.CommandText = query;
+                return command.ExecuteReader();
+            } catch (MySqlException e) {
+                throw new DBException(e.Code, e.Message);
+            }
+        }
         public MySQLUtility()
         {
             try
@@ -42,10 +118,10 @@ namespace NewsApplication.Library.Database
             for (int i = 0; i < data.Count() - 1; i++)
             {
                 keystring += data.Keys[i] + ",";
-                datastring += data.Values[i].sqlValue() + ",";
+                datastring += data.Values[i].SqlValue() + ",";
             }
             keystring += data.Keys[data.Count() - 1];
-            datastring += data.Values[data.Count() - 1].sqlValue();
+            datastring += data.Values[data.Count() - 1].SqlValue();
 
             string query = "INSERT INTO " + table +"(" + keystring + ") VALUES(" + datastring + ")";
 
@@ -67,9 +143,9 @@ namespace NewsApplication.Library.Database
             string nvp = "";
             for(int i=0;i<count - 1; i++)
             {
-                nvp += data.Keys[i] + "=" + data.Values[i].sqlValue() + ",";
+                nvp += data.Keys[i] + "=" + data.Values[i].SqlValue() + ",";
             }
-            nvp += data.Keys[count - 1] + "=" + data.Values[count - 1].sqlValue();
+            nvp += data.Keys[count - 1] + "=" + data.Values[count - 1].SqlValue();
 
             string query = "UPDATE " + table + " SET " + nvp + " WHERE " + where;
 
@@ -99,7 +175,7 @@ namespace NewsApplication.Library.Database
             }
         }
 
-        public MySqlDataReader Query(string query)
+        public IDataReader Query(string query)
         {
             try
             {

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MySql.Data.MySqlClient;
 using System.Collections;
 using NewsApplication.Library.Database;
+using NewsApplication.Models;
 
 namespace NewsApplication.Controllers
 {
@@ -14,6 +15,7 @@ namespace NewsApplication.Controllers
         // GET: Home
         public ActionResult Index()
         {
+
             return Content("OK");
         }
     }
