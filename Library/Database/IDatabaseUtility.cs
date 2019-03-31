@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MySql.Data.MySqlClient;
 
 namespace NewsApplication.Library.Database
 {
     public interface IDatabaseUtility
     {
-        bool Insert(string table, SortedList<string,string> data);
-        bool Update(string table, SortedList<string, string> nvp, string where);
-        bool Delete(string table, string where);
-        bool Query(string sql);
+        void Connect();
+        int Insert(string table, SortedList<string,IDBDataType> data);
+        int Update(string table, SortedList<string,IDBDataType> nvp, string where);
+        int Delete(string table, string where);
+        MySqlDataReader Query(string sql);
     }
 }

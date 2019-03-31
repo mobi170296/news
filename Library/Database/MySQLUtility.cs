@@ -24,7 +24,7 @@ namespace NewsApplication.Library.Database
         {
             this.connection = new MySqlConnection(cs);
         }
-        public void Connection()
+        public void Connect()
         {
             try
             {
@@ -45,9 +45,9 @@ namespace NewsApplication.Library.Database
                 datastring += data.Values[i].sqlValue() + ",";
             }
             keystring += data.Keys[data.Count() - 1];
-            datastring += data.Values[data.Count() - 1];
+            datastring += data.Values[data.Count() - 1].sqlValue();
 
-            string query = "INSERT INTO " + table +"(" + keystring + ") VALUES(" + keystring + ")";
+            string query = "INSERT INTO " + table +"(" + keystring + ") VALUES(" + datastring + ")";
 
             try
             {
@@ -69,7 +69,7 @@ namespace NewsApplication.Library.Database
             {
                 nvp += data.Keys[i] + "=" + data.Values[i].sqlValue() + ",";
             }
-            nvp += data.Keys[count - 1] + "=" + data.Values[count - 1];
+            nvp += data.Keys[count - 1] + "=" + data.Values[count - 1].sqlValue();
 
             string query = "UPDATE " + table + " SET " + nvp + " WHERE " + where;
 
@@ -87,11 +87,25 @@ namespace NewsApplication.Library.Database
         public int Delete(string table, string where)
         {
             string query = "DELETE FROM " + table + " WHERE " + where;
+
             try
             {
                 MySqlCommand command = this.connection.CreateCommand();
                 command.CommandText = query;
                 return command.ExecuteNonQuery();
+            }catch(MySqlException e)
+            {
+                throw new DBException(e.Code, e.Message);
+            }
+        }
+
+        public MySqlDataReader Query(string query)
+        {
+            try
+            {
+                MySqlCommand command = this.connection.CreateCommand();
+                command.CommandText = query;
+                return command.ExecuteReader();
             }catch(MySqlException e)
             {
                 throw new DBException(e.Code, e.Message);

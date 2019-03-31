@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MySql.Data.MySqlClient;
 using System.Collections;
+using NewsApplication.Library.Database;
 
 namespace NewsApplication.Controllers
 {
@@ -13,9 +14,7 @@ namespace NewsApplication.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            object s = 32.323m;
-
-            return Content(s.ToString());
+            return Content("OK");
         }
     }
 }
