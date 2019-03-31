@@ -7,13 +7,129 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    <script src="~/Scripts/jquery-3.0.0.js"></script>
-</head>
-<body>
-    <div>
-        @RenderBody()
-    </div>
-</body>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>@ViewBag.Title</title>
+        <script src="~/Scripts/jquery-3.0.0.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script>
+        $(function (e) {
+            document.onscroll = (e) => {
+
+                if (window.scrollY >= $('#header-logo')[0].offsetTop + $('#header-logo')[0].offsetHeight) {
+                    $('#main-menu').css('position', 'fixed').css('top', '0px').css('left', '0px');
+                } else {
+                    $('#main-menu').css('position', 'static');
+                }
+            }
+        });
+    </script>
+        <style type="text/css">
+            :root{
+                font-size: 10pt;
+            }
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0px;
+                padding: 0px;
+            }
+            #container {
+                margin: 0px auto;
+            }
+            #header {
+                width: 1100px;
+                margin: 0px auto;
+            }
+            #footer {
+                width: 1100px;
+                margin: 0px auto;
+            }
+            #content {
+            }
+            .u-fl {
+                float: left;
+            }
+            .u-fr {
+                float: right;
+            }
+            .u-hidden {
+                display: none !important;
+            }
+            .clearfix::after {
+                content: '';
+                clear: both;
+                display: block;
+            }
+            .u-w30 {
+                width: 30%;
+            }
+            .u-w70 {
+                width: 70%;
+            }
+            .u-w50 {
+                width: 50%;
+            }
+            .u-w40 {
+                width: 40%;
+            }
+            .u-w60 {
+                width: 60%;
+            }
+            .u-border-box {
+                box-sizing: border-box;
+            }
+            .u-padding-box {
+                box-sizing: padding-box;
+            }
+            .u-content-box {
+                box-sizing: content-box;
+            }
+            .u-o-hidden {
+                overflow: hidden;
+            }
+            div#main-menu {
+                background-color: #236693;
+                width: 100%;
+                z-index: 10;
+            }
+            div#main-menu-wrapper {
+                width: 1100px;
+                margin: 0px auto;
+            }
+            div#main-menu div.main-menu-item {
+                float: left;
+            }
+            div#main-menu div.main-menu-item > a {
+                display: inline-block;
+                padding: 10px 5px;
+                color: #fff;
+                font-size: 9pt;
+                text-decoration: none;
+                font-weight: bold;
+            }
+            div#main-menu div.main-menu-item > a:hover {
+                background-color: #f2b674;
+            }
+            a#header-logo-img{
+                background-image: url('/Content/Images/logo.png');
+                background-repeat: no-repeat;
+                height: 70px;
+                display: block;
+                width: 200px;
+            }
+            div#header-info div{
+                clear: both;
+                float: right;
+            }
+        </style>
+    <script></script>
+    </head>
+    <body>
+        <div id="container">
+            @Html.Action("Header", "Layout")
+            <div id="content">
+                @RenderBody()
+            </div>
+            @Html.Action("Footer", "Layout")
+        </div>
+    </body>
 </html>
