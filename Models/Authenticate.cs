@@ -21,13 +21,13 @@ namespace NewsApplication.Models
                 if(cusername == null || cpassword == null)
                 {
                     HttpCookie cun = new HttpCookie("username");
-                    cun.Expires = DateTime.Now.AddYears(-1);
+                    cun.Expires = DateTime.Now.AddMonths(-1);
                     cun.HttpOnly = true;
-                    HttpContext.Current.Request.Cookies.Add(cun);
-                    HttpCookie cpw = new HttpCookie("username");
-                    cpw.Expires = DateTime.Now.AddYears(-1);
+                    HttpContext.Current.Response.Cookies.Add(cun);
+                    HttpCookie cpw = new HttpCookie("password");
+                    cpw.Expires = DateTime.Now.AddMonths(-1);
                     cpw.HttpOnly = true;
-                    HttpContext.Current.Request.Cookies.Add(cpw);
+                    HttpContext.Current.Response.Cookies.Add(cpw);
                 }
                 else
                 {
@@ -37,13 +37,13 @@ namespace NewsApplication.Models
                     if(!this.user.Login(username, password))
                     {
                         HttpCookie cun = new HttpCookie("username");
-                        cun.Expires = DateTime.Now.AddYears(-1);
+                        cun.Expires = DateTime.Now.AddMonths(-1);
                         cun.HttpOnly = true;
-                        HttpContext.Current.Request.Cookies.Add(cun);
-                        HttpCookie cpw = new HttpCookie("username");
-                        cpw.Expires = DateTime.Now.AddYears(-1);
+                        HttpContext.Current.Response.Cookies.Add(cun);
+                        HttpCookie cpw = new HttpCookie("password");
+                        cpw.Expires = DateTime.Now.AddMonths(-1);
                         cpw.HttpOnly = true;
-                        HttpContext.Current.Request.Cookies.Add(cpw);
+                        HttpContext.Current.Response.Cookies.Add(cpw);
                     }
                 }
             }catch(DBException e)
