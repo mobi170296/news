@@ -1,8 +1,20 @@
 ﻿<div id="header">
     <div id="header-logo">
         <div id="header-info" class="u-fr clearfix">
-            <div>Hotline: 0965928981</div>
-            <div>Xin chào, Trịnh Văn Linh</div>
+            <div>Hotline: 0795759696</div>
+            @if (ViewBag.user.IsLogin())
+            {
+                <div>
+                    Xin chào @ViewBag.user.lastname @ViewBag.user.firstname! @Html.ActionLink("Đăng xuất", "Logout", "User")
+                </div>
+
+            }
+            else
+            {
+                <div>@Html.ActionLink("Đăng nhập", "Login", "User") | @Html.ActionLink("Đăng ký", "Register", "User")</div>
+            }
+
+
         </div>
         <a id="header-logo-img" href="/"></a>
     </div>

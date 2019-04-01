@@ -205,6 +205,8 @@
     <Content Include="Views\Layout\Header.cshtml" />
     <Content Include="Views\Layout\Footer.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -214,7 +216,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

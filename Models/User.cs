@@ -20,17 +20,18 @@ namespace NewsApplication.Models
         public string password { get; set; }
         public string email { get; set; }
         public string phone { get; set; }
+        public string firstname { get; set; }
+        public string lastname { get; set; }
         public SortedList<string, string> errorsmap;
         private IDatabaseUtility connection;
         public User()
         {
             this.id = -1;
-        }
-        public User(IDatabaseUtility connection)
-        {
-            this.id = -1;
-            this.connection = connection;
             this.errorsmap = new SortedList<string, string>();
+        }
+        public User(IDatabaseUtility connection) : this()
+        {
+            this.connection = connection;
         }
         public void SetConnection(IDatabaseUtility connection)
         {
@@ -48,25 +49,40 @@ namespace NewsApplication.Models
         {
             errorsmap.Clear();
             //Check username: Min: 6, Max: 50 Regex
-            if(!Regex.IsMatch(this.username, "^[A-z0-9_]+$"))
+            if(this.username == null || !Regex.IsMatch(this.username, "^[A-z0-9_]+$"))
             {
                 errorsmap["username"] = "Username không hợp lệ, phải có từ 6 đến 50 ký tự và chỉ chứa a-Z, 0-9, _";
             }
+            else
+            {
+                using(MySqlDataReader result = (MySqlDataReader)this.connection.select("*").from("user").where("username=" + new DBString(this.username).SqlValue()).Execute())
+                {
+                    if (result.HasRows)
+                    {
+                        errorsmap["username"] = "Tên đăng nhập này đã tồn tại!";
+                    }
+                }
+            }
+
+            if(this.firstname == null || !Regex.IsMatch(this.firstname, @"^(\p{L}| )+$"))
+            {
+                errorsmap["firstname"] = "Tên không hợp lệ";
+            }
 
             //Check password: min: 6, max: unlimited
-            if(this.password.Length < 6)
+            if(this.password == null || this.password.Length < 6)
             {
                 errorsmap["password"] = "Mật khẩu không hợp lệ, phải có từ 6 ký tự trở lên";
             }
 
             //Check email: Regex
-            if(!Regex.IsMatch(this.email, @"^(\w\d\.)+(\w\d)+@[A-z0-9]{3,}\.[A-z0-9]{2,}$"))
+            if(this.email == null || !Regex.IsMatch(this.email, @"^([A-z0-9]+\.)*[A-z0-9]+@[A-z0-9]{3,}\.[A-z0-9]{2,}$"))
             {
                 errorsmap["email"] = "Địa chỉ email không hợp lệ";
             }
 
             //Check phone: Regex
-            if(!Regex.IsMatch(this.phone, @"^0\d{9,10}$"))
+            if(this.phone == null || !Regex.IsMatch(this.phone, @"^0\d{9,10}$"))
             {
                 errorsmap["phone"] = "Số điện thoại không hợp lệ";
             }
@@ -83,7 +99,9 @@ namespace NewsApplication.Models
         public void Standardization()
         {
             if(this.username != null)
-            this.username = this.username.Replace("\\", "\\\\").Replace("'", "\\'");
+            {
+                this.username = this.username.Replace("\\", "\\\\").Replace("'", "\\'");
+            }
             if(this.phone!=null)
             this.phone = this.phone.Replace("\\", "\\\\").Replace("'", "\\'");
             if(this.email != null)
@@ -96,15 +114,16 @@ namespace NewsApplication.Models
         {
             //username, password, role, email, phone
             this.Standardization();
-            this.connection.Insert("user", new SortedList<string, IDBDataType>
+            return this.connection.Insert("user", new SortedList<string, IDBDataType>
             {
                 {"username", new DBString(this.username) },
-                {"password", new DBString(this.password) },
+                {"password", new DBRaw("md5(" + new DBString(this.password).SqlValue() + ")") },
                 {"phone", new DBString(this.phone) },
                 {"email", new DBString(this.email) },
-                {"role", new DBNumber(this.role) }
-            });
-            return true;
+                {"role", new DBNumber(User.NORMAL) },
+                {"lastname", new DBString(this.lastname) },
+                {"firstname", new DBString(this.firstname) }
+            }) != 0;
         }
         public bool Login()
         {
@@ -134,6 +153,8 @@ namespace NewsApplication.Models
                     this.password = result.GetString("password");
                     this.username = result.GetString("username");
                     this.role = result.GetInt32("role");
+                    this.firstname = result.GetString("firstname");
+                    this.lastname = result.GetString("lastname");
                     return true;
                 }
                 else
@@ -150,7 +171,9 @@ namespace NewsApplication.Models
                 {"password", new DBRaw("password('" + this.password + "')") },
                 {"role", new DBNumber(this.role) },
                 {"email", new DBString(this.email) },
-                {"phone", new DBString(this.phone) }
+                {"phone", new DBString(this.phone) },
+                {"firstname", new DBString(this.firstname) },
+                {"lastname", new DBString(this.lastname) }
             }, "id=" + this.id);
             return true;
         }
@@ -158,6 +181,10 @@ namespace NewsApplication.Models
         {
             this.connection.Delete("user", "id=" + this.id);
             return true;
+        }
+        public SortedList<string,string> GetErrorsMap()
+        {
+            return this.errorsmap;
         }
         public string GetErrorMessage(string name)
         {

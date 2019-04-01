@@ -15,24 +15,7 @@ namespace NewsApplication.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            MySQLUtility connection = new MySQLUtility();
-            try
-            {
-                connection.Connect();
-            }catch(DBException ex)
-            {
-                return View("_Error");
-            }
-            Authenticate auth = new Authenticate(connection);
-            User user = auth.GetUser();
-            if (user.IsLogin())
-            {
-                return Content("Bạn đã đăng nhập");
-            }
-            else
-            {
-                return Content("Bạn chưa đăng nhập");
-            }
+            return View();
         }
     }
 }

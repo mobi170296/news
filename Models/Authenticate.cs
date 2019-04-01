@@ -14,6 +14,7 @@ namespace NewsApplication.Models
         {
             this.connection = connection;
             this.user = new User(this.connection);
+
             try
             {
                 HttpCookie cusername = HttpContext.Current.Request.Cookies["username"];

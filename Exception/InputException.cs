@@ -8,8 +8,8 @@ namespace NewsApplication.Exception
     public class InputException : System.Exception
     {
         private int code;
-        private string[] errors;
-        public InputException(int code, string[] error)
+        private SortedList<string,string> errors;
+        public InputException(int code, SortedList<string,string> error, string message = "") : base(message)
         {
             this.code = code;
             this.errors = error;
@@ -23,7 +23,7 @@ namespace NewsApplication.Exception
                 this.code = value;
             }
         }
-        public string[] Errors
+        public SortedList<string,string> Errors
         {
             get
             {
