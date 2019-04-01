@@ -19,6 +19,7 @@ namespace NewsApplication.Models
             {
                 HttpCookie cusername = HttpContext.Current.Request.Cookies["username"];
                 HttpCookie cpassword = HttpContext.Current.Request.Cookies["password"];
+
                 if(cusername == null || cpassword == null)
                 {
                     HttpCookie cun = new HttpCookie("username");

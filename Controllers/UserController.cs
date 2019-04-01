@@ -221,7 +221,7 @@ namespace NewsApplication.Controllers
             }
             else
             {
-                if(input.username!=null && input.password != null)
+                if(input.username != null && input.password != null)
                 {
                     string username = input.username;
                     string password = input.password;
@@ -232,11 +232,11 @@ namespace NewsApplication.Controllers
                         {
                             HttpCookie cusername = new HttpCookie("username", username);
                             cusername.HttpOnly = true;
-                            cusername.Expires.AddMonths(1);
+                            cusername.Expires = DateTime.Now.AddMonths(1);
                             Response.Cookies.Add(cusername);
                             HttpCookie cpassword = new HttpCookie("password", password);
                             cpassword.HttpOnly = true;
-                            cpassword.Expires.AddMonths(1);
+                            cpassword.Expires = DateTime.Now.AddMonths(1);
                             Response.Cookies.Add(cpassword);
                             return RedirectToAction("Index", "Home");
                         }

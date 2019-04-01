@@ -21,7 +21,11 @@ namespace NewsApplication.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            HttpCookie cookie = new HttpCookie("name", "Trịnh Văn Linh");
+            cookie.Expires = DateTime.Now.AddMonths(3);
+            cookie.HttpOnly = true;
+            Response.Cookies.Add(cookie);
+            return Content("OK");
         }
     }
 }
