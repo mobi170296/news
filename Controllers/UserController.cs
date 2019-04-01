@@ -94,6 +94,101 @@ namespace NewsApplication.Controllers
             }
         }
         [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            MySQLUtility connection = new MySQLUtility();
+            try
+            {
+                connection.Connect();
+
+                Authenticate authenticate = new Authenticate(connection);
+
+                User user = authenticate.GetUser();
+
+                if (user.IsLogin())
+                {
+                    return View();
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Bạn chưa đăng nhập không thể thay đổi mật khẩu";
+                    return View("_Error");
+                }
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("_Error");
+            }
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(string[] password)
+        {
+            MySQLUtility connection = new MySQLUtility();
+
+            try
+            {
+                connection.Connect();
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("_Error");
+            }
+
+            try
+            {
+                Authenticate authenticate = new Authenticate(connection);
+
+                User user = authenticate.GetUser();
+
+                if (user.IsLogin())
+                {
+                    user.SetConnection(connection);
+
+                    if(password == null || password.Length != 2 || password[0] != password[1])
+                    {
+                        user.AddErrorMessage("password", "Mật khẩu mới không hợp lệ!");
+                    }
+
+                    if (user.GetErrorsMap().Count()!=0)
+                    {
+                        throw new InputException(1, user.GetErrorsMap());
+                    }
+
+                    user.password = password[0];
+
+                    user.CheckValidForPassword();
+
+                    if(user.GetErrorsMap().Count() != 0)
+                    {
+                        throw new InputException(1, user.GetErrorsMap());
+                    }
+
+                    user.ChangePassword(password[0]);
+
+                    ViewBag.SuccessMessage = "Đã cập nhật mật khẩu thành công!";
+
+                    HttpCookie cpassword = Request.Cookies["password"];
+                    cpassword.Value = password[0];
+                    Response.Cookies.Add(cpassword);
+
+                    return View();
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Bạn chưa đăng nhập";
+                    return View("_Error");
+                }
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View();
+            }catch(InputException e)
+            {
+                ViewBag.ErrorsMap = e.Errors;
+                return View();
+            }
+        }
+        [HttpGet]
         public ActionResult Register()
         {
             MySQLUtility connection = new MySQLUtility();

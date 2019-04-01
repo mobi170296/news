@@ -201,11 +201,11 @@ namespace NewsApplication.Models
             }
             if (this.firstname != null)
             {
-                this.firstname = this.firstname.Replace("\\", "\\\\").Replace("'", "\\");
+                this.firstname = this.firstname.Replace("\\", "\\\\").Replace("'", "\\'");
             }
             if (this.lastname != null)
             {
-                this.lastname = this.lastname.Replace("\\", "\\\\").Replace("'", "\\");
+                this.lastname = this.lastname.Replace("\\", "\\\\").Replace("'", "\\'");
             }
         }
         //Add method
@@ -264,6 +264,15 @@ namespace NewsApplication.Models
                     return false;
                 }
             }
+        }
+        public bool ChangePassword(string password)
+        {
+            password = password.Replace("\\", "\\\\").Replace("'", "\\'");
+            this.connection.Update("user", new SortedList<string, IDBDataType>
+            {
+                {"password", new DBRaw("md5(" + new DBString(password).SqlValue() + ")")}
+            }, "id=" + new DBNumber(this.id).SqlValue());
+            return true;
         }
         public bool Update(User newdata)
         {
