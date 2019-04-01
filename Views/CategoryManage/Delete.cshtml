@@ -1,1 +1,36 @@
-﻿
+﻿@model NewsApplication.Models.Category
+
+@{
+    ViewBag.Title = "Xóa danh mục tin";
+}
+
+<div class="card">
+    <div class="card-header">
+
+        <div class="blockquote">Bạn có muốn xóa danh mục @Model.name?</div>
+    </div>
+    <div class="card-body">
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+        @if (ViewBag.ErrorsMap != null)
+        {
+            <div class="alert alert-danger">
+                @foreach (string key in ViewBag.ErrorsMap.Keys)
+                {
+                    <div>@ViewBag.ErrorsMap[key]</div>
+                }
+            </div>
+        }
+        <form action="" method="post">
+            <input type="hidden" name="id" value="@Model.id" />
+            <button class="btn btn-outline-danger">Xóa</button>
+            @Html.ActionLink("Trở về danh sách danh mục", "Index", "CategoryManage", new { @class = "btn btn-link" })
+        </form>
+    </div>
+</div>

@@ -123,6 +123,8 @@ namespace NewsApplication.Controllers
             {
                 if (user.IsLogin() && user.HaveRole(NewsApplication.Models.User.ADMIN))
                 {
+                    //Đặt giá trị cho biến chấp nhận rỗng null => ""
+                    category.link = category.link == null ? "" : category.link;
                     category.SetConnection(connection);
                     category.CheckValidForLink().CheckValidForName();
                     if (category.GetErrorsMap().Count == 0)
@@ -156,23 +158,206 @@ namespace NewsApplication.Controllers
         [HttpGet]
         public ActionResult Update(int? id)
         {
-            return View();
+            MySQLUtility connection = new MySQLUtility();
+
+            try
+            {
+                connection.Connect();
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("_Error");
+            }
+
+            try
+            {
+                Authenticate authenticate = new Authenticate(connection);
+                User user = authenticate.GetUser();
+
+                if (user.IsLogin() && user.HaveRole(NewsApplication.Models.User.ADMIN))
+                {
+                    Category category = new Category(connection);
+                    category.id = (int)id;
+                    if(id == null || !category.Load())
+                    {
+                        TempData["ErrorMessage"] = "Danh mục tin tức không tồn tại";
+                        return RedirectToAction("Index");
+                    }
+                    ViewBag.oldname = category.name;
+                    return View(category);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Bạn không thể truy cập trang này";
+                    return View("_Error");
+                }
+
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View();
+            }catch(InputException e)
+            {
+                return View();
+            }
         }
         [HttpPost]
         public ActionResult Update(int? id, Category model)
         {
-            return View();
+            MySQLUtility connection = new MySQLUtility();
+            try
+            {
+                connection.Connect();
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("_Error");
+            }
+
+
+
+            Category category = new Category(connection);
+            try
+            {
+                Authenticate authenticate = new Authenticate(connection);
+                User user = authenticate.GetUser();
+
+                if(user.IsLogin() && user.HaveRole(NewsApplication.Models.User.ADMIN))
+                {
+                    category.id = (int)id;
+                    if(id != null && category.Load())
+                    {
+                        //Viết lại giá trị cho rỗng <=> null MVC FW
+                        model.link = model.link == null ? "" : model.link;
+
+                        model.CheckValidForLink().CheckValidForName();
+                        if(model.GetErrorsMap().Count == 0)
+                        {
+                            category.Update(model);
+
+                            ViewBag.SuccessMessage = "Cập nhật thành công danh mục";
+                            ViewBag.oldname = category.name;
+                            return View(model);
+                        }
+                        else
+                        {
+                            throw new InputException(1, model.GetErrorsMap());
+                        }
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Danh mục không tồn tại";
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Bạn không có quyền truy cập";
+                    return View("_Error");
+                }
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return RedirectToAction("Index");
+            }catch(InputException e)
+            {
+                ViewBag.ErrorsMap = e.Errors;
+                ViewBag.oldname = category.name;
+                return View(model);
+            }
         }
         [HttpGet]
         public ActionResult Delete(int? id)
         {
-            return View();
+            MySQLUtility connection = new MySQLUtility();
+
+            try
+            {
+                connection.Connect();
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("_Error");
+            }
+
+            try
+            {
+                Authenticate authenticate = new Authenticate(connection);
+                User user = authenticate.GetUser();
+
+                if(user.IsLogin() && user.HaveRole(NewsApplication.Models.User.ADMIN))
+                {
+                    Category category = new Category(connection);
+                    category.id = (int)id;
+                    if(id == null || !category.Load())
+                    {
+                        TempData["ErrorMessage"] = "ID của danh mục không hợp lệ";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return View(category);
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Bạn không có quyền truy cập";
+                    return View("_error");
+                }
+
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("_Error");
+            }
         }
         [HttpPost]
-        public ActionResult Delete(Category model)
+        public ActionResult Delete(int id)
         {
+            MySQLUtility connection = new MySQLUtility();
 
-            return View();
+            try
+            {
+                connection.Connect();
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("_error");
+            }
+
+            User user = null;
+
+            try
+            {
+                Authenticate authenticate = new Authenticate(connection);
+                user = authenticate.GetUser();
+
+                if(user.IsLogin() && user.HaveRole(NewsApplication.Models.User.ADMIN))
+                {
+                    Category category = new Category(connection);
+                    category.id = (int)id;
+                    if(id == null || !category.Load())
+                    {
+                        TempData["ErrorMessage"] = "Danh mục không tồn tại";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        category.Delete();
+                        TempData["SuccessMessage"] = "Xóa thành công";
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Bạn không thể truy cập trang này";
+                    return View("_Error");
+                }
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("_Error");
+            }
         }
     }
 }

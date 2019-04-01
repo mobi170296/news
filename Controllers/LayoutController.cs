@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MySql.Data.MySqlClient;
 
 namespace NewsApplication.Controllers
 {
@@ -29,7 +30,27 @@ namespace NewsApplication.Controllers
 
                 ViewBag.user = user;
 
-                //ViewBag.categories = ;;
+                List<int> ids = new List<int>();
+
+                using (MySqlDataReader result = (MySqlDataReader)connection.select("*").from("category").Execute())
+                {
+                    while (result.Read())
+                    {
+                        ids.Add(result.GetInt32("id"));
+                    }
+                }
+
+                List<Category> categories = new List<Category>();
+
+                foreach(int id in ids)
+                {
+                    Category cate = new Category(connection);
+                    cate.id = id;
+                    cate.Load();
+                    categories.Add(cate);
+                }
+
+                ViewBag.categories = categories;
 
                 return PartialView();
             }

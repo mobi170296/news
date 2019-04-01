@@ -1,4 +1,7 @@
-﻿<div id="header">
+﻿@using NewsApplication.Models
+
+
+<div id="header">
     <div id="header-logo">
         <div id="header-info" class="u-fr clearfix">
             <div>Hotline: 0795759696</div>
@@ -38,20 +41,13 @@
     </div>
     <div id="main-menu">
         <div id="main-menu-wrapper" class="clearfix">
-            <div class="main-menu-item"><a href="#">TRONG NƯỚC</a></div>
-            <div class="main-menu-item"><a href="#">QUỐC TẾ</a></div>
-            <div class="main-menu-item"><a href="#">BẠN ĐỌC</a></div>
-            <div class="main-menu-item"><a href="#">CÔNG ĐOÀN</a></div>
-            <div class="main-menu-item"><a href="#">KINH TẾ</a></div>
-            <div class="main-menu-item"><a href="#">SỨC KHỎE</a></div>
-            <div class="main-menu-item"><a href="#">GIÁO DỤC</a></div>
-            <div class="main-menu-item"><a href="#">PHÁP LUẬT</a></div>
-            <div class="main-menu-item"><a href="#">VĂN NGHỆ</a></div>
-            <div class="main-menu-item"><a href="#">THỂ THAO</a></div>
-            <div class="main-menu-item"><a href="#">CÔNG NGHỆ</a></div>
-            <div class="main-menu-item"><a href="#">THỊ TRƯỜNG</a></div>
-            <div class="main-menu-item"><a href="#">PHỤ NỮ</a></div>
-            <div class="main-menu-item"><a href="#">ĐỊA PHƯƠNG</a></div>
+            @if (ViewBag.categories != null)
+            {
+                foreach (Category category in ViewBag.categories)
+                {
+                    <div class="main-menu-item"><a href="@category.link">@category.name</a></div>
+                }
+            }
         </div>
     </div>
 </div>
