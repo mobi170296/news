@@ -15,9 +15,13 @@
                     <a href="@Url.Action("ChangePassword", "User")">Đổi mật khẩu</a>
                 </div>
 
-                <div class="left-menu-item">
-                    <a href="@Url.Action("Posted", "Post")">Bài báo đã đăng</a>
-                </div>
+                @if (Model.HaveRole(NewsApplication.Models.User.JOURNALIST))
+                {
+                    <div class="left-menu-item">
+                        <a href="@Url.Action("Posted", "Post")">Bài báo đã đăng</a>
+                    </div>
+                }
+
             </div>
         </div>
         <div class=" col-9">
@@ -42,7 +46,7 @@
                 <div class="card">
                     <div class="card-header"><h4>Thông tin tài khoản</h4></div>
                     <div class="card-body">
-                        <div class="card">
+                        <div class="card m-2">
                             <div class="card-header">
                                 Thông tin tài khoản
                             </div>
@@ -60,21 +64,27 @@
                                     </label>
                                 </div>
                                 <div>
-                                    <label>Quyền hạn:</label> 
+                                    <label>Quyền hạn:</label>
                                     @switch (Model.role)
-                                        {
-                                            case NewsApplication.Models.User.ADMIN:
-                                                <font color="#f00">Quản trị viên</font>
+                                    {
+                                        case NewsApplication.Models.User.ADMIN:
+                                            <font color="#f00">Quản trị viên</font>
                                             break;
-                                            case NewsApplication.Models.User.NORMAL:
-                                                <font color="#070">Người dùng thông thường</font>
+                                        case NewsApplication.Models.User.NORMAL:
+                                            <font color="#070">Người dùng thông thường</font>
                                             break;
-                                        }
+                                        case NewsApplication.Models.User.JOURNALIST:
+                                            <font color="#007">Người đăng bài</font>
+                                            break;
+                                        case NewsApplication.Models.User.INSPECTOR:
+                                            <font color="#ffd800">Kiểm duyệt bài</font>
+                                            break;
+                                    }
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div class="card m-2">
                             <div class="card-header">
                                 Thông tin cá nhân
                             </div>

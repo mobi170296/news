@@ -14,6 +14,8 @@ namespace NewsApplication.Models
     {
         public const int ADMIN = 1;
         public const int NORMAL = 2;
+        public const int JOURNALIST = 3;
+        public const int INSPECTOR = 4;
         public int id { get; set; }
         public int role { get; set; }
         public string username { get; set; }

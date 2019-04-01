@@ -7,7 +7,25 @@
                 <div>
                     Xin chào <a href="/User">@ViewBag.user.lastname @ViewBag.user.firstname!</a> @Html.ActionLink("Đăng xuất", "Logout", "User")
                 </div>
+                if (ViewBag.user.HaveRole(NewsApplication.Models.User.ADMIN))
+                {
+                    <div>
+                        @Html.ActionLink("Quản trị hệ thống", "Index", "Admin")
+                    </div>
+                }
 
+                if (ViewBag.user.HaveRole(NewsApplication.Models.User.JOURNALIST))
+                {
+                    <div>
+                        @Html.ActionLink("Quản lý bài báo", "Index", "Posts")
+                    </div>
+                }
+                if (ViewBag.user.HaveRole(NewsApplication.Models.User.INSPECTOR))
+                {
+                    <div>
+                        @Html.ActionLink("Rà soát bài đăng", "Index", "Inspector")
+                    </div>
+                }
             }
             else
             {

@@ -1,0 +1,55 @@
+﻿@using NewsApplication.Models
+
+
+@{ 
+    ViewBag.Title = "Quản lý danh mục tin tức";
+}
+
+<div class="card">
+    <div class="card-header">
+        Quản lý danh mục tin
+    </div>
+    <div class="card-body">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        }
+        @if(ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+
+
+        <div>
+            @Html.ActionLink("Thêm danh mục mới", "Add", null, null, new { @class = "btn btn-primary m-2" })
+        </div>
+        @if (ViewBag.categories == null || ViewBag.categories.Count == 0)
+        {
+            <div class="alert alert-info">Danh mục hiện tại rỗng!</div>
+        }
+        else
+        {
+            <table class="table table-sm table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Tên danh mục</th>
+                    <th>Liên kết</th>
+                    <th class="col-2">Action</th>
+                </tr>
+
+                @foreach(Category cate in ViewBag.categories)
+                {
+                    <tr>
+                        <td>@cate.id</td>
+                        <td>@cate.name</td>
+                        <td>@cate.link</td>
+                        <td>
+                            @Html.ActionLink("Sửa", "Update", "CategoryManage", new { id = cate.id }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Xóa", "Delete", "CategoryManage", new { id = cate.id }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>

@@ -16,6 +16,8 @@ namespace NewsApplication.Library.Database
         public IDatabaseUtility select(string s)
         {
             this._select = s;
+            //select again
+            _from = _join = _on = _where = _groupby = _having = _orderby = _order = _limit = null;
             return this;
         }
         public IDatabaseUtility from(string s)

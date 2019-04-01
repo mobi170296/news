@@ -160,10 +160,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CategoryManageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InspectorController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserManageController.cs" />
     <Compile Include="Exception\InputException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -201,7 +206,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\User\Info.cshtml" />
     <Content Include="Views\Layout\Header.cshtml" />
     <Content Include="Views\Layout\Footer.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
@@ -209,6 +213,11 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\CategoryManage\Index.cshtml" />
+    <Content Include="Views\CategoryManage\Add.cshtml" />
+    <Content Include="Views\CategoryManage\Update.cshtml" />
+    <Content Include="Views\CategoryManage\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -218,6 +227,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Inspector\" />
+    <Folder Include="Views\UserManage\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

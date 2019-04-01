@@ -93,6 +93,7 @@ namespace NewsApplication.Controllers
                 return View(user);
             }
         }
+
         [HttpGet]
         public ActionResult ChangePassword()
         {
@@ -107,7 +108,7 @@ namespace NewsApplication.Controllers
 
                 if (user.IsLogin())
                 {
-                    return View();
+                    return View(user);
                 }
                 else
                 {
@@ -124,6 +125,7 @@ namespace NewsApplication.Controllers
         public ActionResult ChangePassword(string[] password)
         {
             MySQLUtility connection = new MySQLUtility();
+            User user = null;
 
             try
             {
@@ -138,7 +140,7 @@ namespace NewsApplication.Controllers
             {
                 Authenticate authenticate = new Authenticate(connection);
 
-                User user = authenticate.GetUser();
+                user = authenticate.GetUser();
 
                 if (user.IsLogin())
                 {
@@ -171,7 +173,7 @@ namespace NewsApplication.Controllers
                     cpassword.Value = password[0];
                     Response.Cookies.Add(cpassword);
 
-                    return View();
+                    return View(user);
                 }
                 else
                 {
@@ -181,11 +183,11 @@ namespace NewsApplication.Controllers
             }catch(DBException e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                return View();
+                return View(user);
             }catch(InputException e)
             {
                 ViewBag.ErrorsMap = e.Errors;
-                return View();
+                return View(user);
             }
         }
         [HttpGet]
