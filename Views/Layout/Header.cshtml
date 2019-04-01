@@ -5,7 +5,7 @@
             @if (ViewBag.user.IsLogin())
             {
                 <div>
-                    Xin chào @ViewBag.user.lastname @ViewBag.user.firstname! @Html.ActionLink("Đăng xuất", "Logout", "User")
+                    Xin chào <a href="/User">@ViewBag.user.lastname @ViewBag.user.firstname!</a> @Html.ActionLink("Đăng xuất", "Logout", "User")
                 </div>
 
             }

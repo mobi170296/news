@@ -10,7 +10,8 @@ namespace NewsApplication.Library.Database
 {
     public class MySQLUtility : IDatabaseUtility
     {
-        private MySqlConnection connection;
+        public MySqlConnection connection;
+        public string cquery = "";
         private string _select, _from, _join, _on, _where, _groupby, _having, _orderby, _order= "ASC", _limit;
         public IDatabaseUtility select(string s)
         {
@@ -81,6 +82,7 @@ namespace NewsApplication.Library.Database
                 (this._limit != null ? " LIMIT " + this._limit : "");
                 MySqlCommand command = this.connection.CreateCommand();
                 command.CommandText = query;
+                this.cquery = query;
                 return command.ExecuteReader();
             } catch (MySqlException e) {
                 throw new DBException(e.Code, e.Message);
@@ -130,6 +132,7 @@ namespace NewsApplication.Library.Database
                 MySqlCommand command = this.connection.CreateCommand();
                 command.CommandType = System.Data.CommandType.Text;
                 command.CommandText = query;
+                this.cquery = query;
                 return command.ExecuteNonQuery();
             }catch(MySqlException e)
             {
@@ -153,6 +156,7 @@ namespace NewsApplication.Library.Database
             {
                 MySqlCommand command = this.connection.CreateCommand();
                 command.CommandText = query;
+                this.cquery = query;
                 return command.ExecuteNonQuery();
             }catch(MySqlException e)
             {
@@ -168,6 +172,7 @@ namespace NewsApplication.Library.Database
             {
                 MySqlCommand command = this.connection.CreateCommand();
                 command.CommandText = query;
+                this.cquery = query;
                 return command.ExecuteNonQuery();
             }catch(MySqlException e)
             {
@@ -181,6 +186,7 @@ namespace NewsApplication.Library.Database
             {
                 MySqlCommand command = this.connection.CreateCommand();
                 command.CommandText = query;
+                this.cquery = query;
                 return command.ExecuteReader();
             }catch(MySqlException e)
             {

@@ -8,15 +8,15 @@ namespace NewsApplication.Controllers
 {
     public class Model
     {
-        public int id;
+        public string password;
     }
     public class TestController : Controller
     {
         // GET: Test
         [HttpPost]
-        public ActionResult Index(Model model)
+        public ActionResult Index(Model model, string[] password, string id)
         {
-            return Content("");
+            return Content("" + password[0] + "; " + password[1]);
         }
         [HttpGet]
         public ActionResult Index()

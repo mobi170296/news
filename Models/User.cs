@@ -12,8 +12,8 @@ namespace NewsApplication.Models
 {
     public class User
     {
-        const int ADMIN = 1;
-        const int NORMAL = 2;
+        public const int ADMIN = 1;
+        public const int NORMAL = 2;
         public int id { get; set; }
         public int role { get; set; }
         public string username { get; set; }
@@ -22,6 +22,7 @@ namespace NewsApplication.Models
         public string phone { get; set; }
         public string firstname { get; set; }
         public string lastname { get; set; }
+        public int gender { get; set; }
         public SortedList<string, string> errorsmap;
         private IDatabaseUtility connection;
         public User()
@@ -47,15 +48,14 @@ namespace NewsApplication.Models
         }
         public bool CheckValid()
         {
-            errorsmap.Clear();
             //Check username: Min: 6, Max: 50 Regex
-            if(this.username == null || !Regex.IsMatch(this.username, "^[A-z0-9_]+$"))
+            if (this.username == null || !Regex.IsMatch(this.username, "^[A-z0-9_]+$"))
             {
                 errorsmap["username"] = "Username không hợp lệ, phải có từ 6 đến 50 ký tự và chỉ chứa a-Z, 0-9, _";
             }
             else
             {
-                using(MySqlDataReader result = (MySqlDataReader)this.connection.select("*").from("user").where("username=" + new DBString(this.username).SqlValue()).Execute())
+                using (MySqlDataReader result = (MySqlDataReader)this.connection.select("*").from("user").where("username=" + new DBString(this.username).SqlValue()).Execute())
                 {
                     if (result.HasRows)
                     {
@@ -64,30 +64,43 @@ namespace NewsApplication.Models
                 }
             }
 
-            if(this.firstname == null || !Regex.IsMatch(this.firstname, @"^(\p{L}| )+$"))
+            //check lastname
+            if (this.lastname == null || !Regex.IsMatch(this.lastname, @"^(\p{L}| ){0,50}$"))
+            {
+                errorsmap["lastname"] = "Họ không hợp lệ";
+            }
+
+            //check firstname
+            if (this.firstname == null || !Regex.IsMatch(this.firstname, @"^(\p{L}| ){1,50}$"))
             {
                 errorsmap["firstname"] = "Tên không hợp lệ";
             }
 
             //Check password: min: 6, max: unlimited
-            if(this.password == null || this.password.Length < 6)
+            if (this.password == null || this.password.Length < 6)
             {
                 errorsmap["password"] = "Mật khẩu không hợp lệ, phải có từ 6 ký tự trở lên";
             }
 
             //Check email: Regex
-            if(this.email == null || !Regex.IsMatch(this.email, @"^([A-z0-9]+\.)*[A-z0-9]+@[A-z0-9]{3,}\.[A-z0-9]{2,}$"))
+            if (this.email == null || !Regex.IsMatch(this.email, @"^([A-z0-9]+\.)*[A-z0-9]+@[A-z0-9]{3,}\.[A-z0-9]{2,}$"))
             {
                 errorsmap["email"] = "Địa chỉ email không hợp lệ";
             }
 
             //Check phone: Regex
-            if(this.phone == null || !Regex.IsMatch(this.phone, @"^0\d{9,10}$"))
+            if (this.phone == null || !Regex.IsMatch(this.phone, @"^0\d{9,10}$"))
             {
                 errorsmap["phone"] = "Số điện thoại không hợp lệ";
             }
 
-            if(this.errorsmap.Count() == 0)
+            //check gender
+            if (this.gender != 0 && this.gender != 1)
+            {
+                errorsmap["gender"] = "Giới tính không hợp lệ!";
+            }
+
+            if (this.errorsmap.Count() == 0)
             {
                 return true;
             }
@@ -96,18 +109,104 @@ namespace NewsApplication.Models
                 return false;
             }
         }
+        public User CheckValidForFirstname()
+        {
+            //check firstname
+            if (this.firstname == null || !Regex.IsMatch(this.firstname, @"^(\p{L}| ){1,50}$"))
+            {
+                errorsmap["firstname"] = "Tên không hợp lệ";
+            }
+            return this;
+        }
+        public User CheckValidForLastname()
+        {
+            if (this.lastname == null || !Regex.IsMatch(this.lastname, @"^(\p{L}| ){0,50}$"))
+            {
+                errorsmap["lastname"] = "Họ không hợp lệ";
+            }
+            return this;
+        }
+        public User CheckValidForUsername()
+        {
+            if (this.username == null || !Regex.IsMatch(this.username, "^[A-z0-9_]+$"))
+            {
+                errorsmap["username"] = "Username không hợp lệ, phải có từ 6 đến 50 ký tự và chỉ chứa a-Z, 0-9, _";
+            }
+            else
+            {
+                using (MySqlDataReader result = (MySqlDataReader)this.connection.select("*").from("user").where("username=" + new DBString(this.username).SqlValue()).Execute())
+                {
+                    if (result.HasRows)
+                    {
+                        errorsmap["username"] = "Tên đăng nhập này đã tồn tại!";
+                    }
+                }
+            }
+            return this;
+        }
+        public User CheckValidForPassword()
+        {
+            //Check password: min: 6, max: unlimited
+            if (this.password == null || this.password.Length < 6)
+            {
+                errorsmap["password"] = "Mật khẩu không hợp lệ, phải có từ 6 ký tự trở lên";
+            }
+            return this;
+        }
+        public User CheckValidForEmail()
+        {
+            //Check email: Regex
+            if (this.email == null || !Regex.IsMatch(this.email, @"^([A-z0-9]+\.)*[A-z0-9]+@[A-z0-9]{3,}\.[A-z0-9]{2,}$"))
+            {
+                errorsmap["email"] = "Địa chỉ email không hợp lệ";
+            }
+            return this;
+        }
+        public User CheckValidForPhone()
+        {
+
+            //Check phone: Regex
+            if (this.phone == null || !Regex.IsMatch(this.phone, @"^0\d{9,10}$"))
+            {
+                errorsmap["phone"] = "Số điện thoại không hợp lệ";
+            }
+            return this;
+        }
+        public User CheckValidForGender()
+        {
+            //check gender
+            if (this.gender != 0 && this.gender != 1)
+            {
+                errorsmap["gender"] = "Giới tính không hợp lệ!";
+            }
+            return this;
+        }
         public void Standardization()
         {
-            if(this.username != null)
+            if (this.username != null)
             {
                 this.username = this.username.Replace("\\", "\\\\").Replace("'", "\\'");
             }
-            if(this.phone!=null)
-            this.phone = this.phone.Replace("\\", "\\\\").Replace("'", "\\'");
-            if(this.email != null)
-            this.email = this.email.Replace("\\", "\\\\").Replace("'", "\\'");
-            if(this.password != null)
-            this.password = this.password.Replace("\\", "\\\\").Replace("'", "\\'");
+            if (this.phone != null)
+            {
+                this.phone = this.phone.Replace("\\", "\\\\").Replace("'", "\\'");
+            }
+            if (this.email != null)
+            {
+                this.email = this.email.Replace("\\", "\\\\").Replace("'", "\\'");
+            }
+            if (this.password != null)
+            {
+                this.password = this.password.Replace("\\", "\\\\").Replace("'", "\\'");
+            }
+            if (this.firstname != null)
+            {
+                this.firstname = this.firstname.Replace("\\", "\\\\").Replace("'", "\\");
+            }
+            if (this.lastname != null)
+            {
+                this.lastname = this.lastname.Replace("\\", "\\\\").Replace("'", "\\");
+            }
         }
         //Add method
         public bool Register()
@@ -122,14 +221,15 @@ namespace NewsApplication.Models
                 {"email", new DBString(this.email) },
                 {"role", new DBNumber(User.NORMAL) },
                 {"lastname", new DBString(this.lastname) },
-                {"firstname", new DBString(this.firstname) }
+                {"firstname", new DBString(this.firstname) },
+                {"gender", new DBNumber(this.gender) }
             }) != 0;
         }
         public bool Login()
         {
             HttpCookie cusername = HttpContext.Current.Request.Cookies["username"];
             HttpCookie cpassword = HttpContext.Current.Request.Cookies["password"];
-            if(cusername == null || cpassword == null)
+            if (cusername == null || cpassword == null)
             {
                 return false;
             }
@@ -155,6 +255,8 @@ namespace NewsApplication.Models
                     this.role = result.GetInt32("role");
                     this.firstname = result.GetString("firstname");
                     this.lastname = result.GetString("lastname");
+                    this.gender = result.GetInt32("gender");
+                    this.phone = result.GetString("phone");
                     return true;
                 }
                 else
@@ -168,21 +270,30 @@ namespace NewsApplication.Models
             newdata.Standardization();
             this.connection.Update("user", new SortedList<string, IDBDataType>
             {
-                {"password", new DBRaw("password('" + this.password + "')") },
-                {"role", new DBNumber(this.role) },
-                {"email", new DBString(this.email) },
-                {"phone", new DBString(this.phone) },
-                {"firstname", new DBString(this.firstname) },
-                {"lastname", new DBString(this.lastname) }
+                {"password", new DBRaw("md5(" + new DBString(newdata.password).SqlValue() + ")") },
+                {"role", new DBNumber(newdata.role) },
+                {"email", new DBString(newdata.email) },
+                {"phone", new DBString(newdata.phone) },
+                {"firstname", new DBString(newdata.firstname) },
+                {"lastname", new DBString(newdata.lastname) },
+                {"gender", new DBNumber(newdata.gender) }
             }, "id=" + this.id);
+
+            this.role = newdata.role;
+            this.email = newdata.email;
+            this.phone = newdata.phone;
+            this.firstname = newdata.firstname;
+            this.lastname = newdata.lastname;
+            this.gender = newdata.gender;
+
             return true;
         }
         public bool Delete()
         {
-            this.connection.Delete("user", "id=" + this.id);
+            this.connection.Delete("user", "id=" + new DBNumber(this.id).SqlValue());
             return true;
         }
-        public SortedList<string,string> GetErrorsMap()
+        public SortedList<string, string> GetErrorsMap()
         {
             return this.errorsmap;
         }
@@ -196,6 +307,10 @@ namespace NewsApplication.Models
             {
                 return null;
             }
+        }
+        public void AddErrorMessage(string name, string value)
+        {
+            this.errorsmap[name] = value;
         }
     }
 }

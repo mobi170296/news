@@ -1,0 +1,123 @@
+﻿@model NewsApplication.Models.User
+
+@{
+    ViewBag.Title = "Thông tin người dùng";
+}
+
+    <div class="row m-4">
+        <div class=" col-3">
+            <div class="left-menu">
+                <div class="left-menu-item active">
+                    <a href="#">Thông tin người dùng</a>
+                </div>
+
+                <div class="left-menu-item">
+                    <a href="#">Đổi mật khẩu</a>
+                </div>
+
+                <div class="left-menu-item">
+                    <a href="#">Bài báo đã đăng</a>
+                </div>
+            </div>
+        </div>
+        <div class=" col-9">
+            <div class="right-content">
+                    @if(ViewBag.SuccessMessage != null)
+                    {
+                        <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+                    }
+                    @if(ViewBag.ErrorsMap != null)
+                    {
+                        <div class="alert alert-danger">
+                            @if (ViewBag.ErrorMessage != null)
+                            {
+                                @ViewBag.ErrorMessage
+                            }
+                            @foreach(string key in ViewBag.ErrorsMap.Keys)
+                            {
+                                <div>@ViewBag.ErrorsMap[key]</div>
+                            }
+                        </div>
+                    }
+                <div class="card">
+                    <div class="card-header"><h4>Thông tin tài khoản</h4></div>
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                Thông tin tài khoản
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="d-block">
+                                        <span>Định danh</span>
+                                        <input class="form-control" value="@Model.id" disabled />
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="d-block">
+                                        <span>Tên tài khoản</span>
+                                        <input class="form-control" value="@Model.username" disabled />
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>Quyền hạn:</label> 
+                                    @switch (Model.role)
+                                        {
+                                            case NewsApplication.Models.User.ADMIN:
+                                                <font color="#f00">Quản trị viên</font>
+                                            break;
+                                            case NewsApplication.Models.User.NORMAL:
+                                                <font color="#070">Người dùng thông thường</font>
+                                            break;
+                                        }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                Thông tin cá nhân
+                            </div>
+                            <div class="card-body">
+                                <form action="" method="post">
+                                    <div class="form-group">
+                                        <label class="d-block">
+                                            <span>Họ</span>
+                                            <input class="form-control" name="lastname" value="@Model.lastname" />
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="d-block">
+                                            <span>Tên</span>
+                                            <input class="form-control" name="firstname" value="@Model.firstname" />
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="d-block">
+                                            <span>Email</span>
+                                            <input class="form-control" name="email" value="@Model.email" />
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="d-block">
+                                            <span>Số điện thoại</span>
+                                            <input class="form-control" name="phone" value="@Model.phone" />
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="d-block">Giới tính</span>
+                                        <label><input type="radio" name="gender" value="1" @(Model.gender==1 ? "checked" : "") /> Nam</label>
+                                        <label><input type="radio" name="gender" value="0" @(Model.gender==0 ? "checked" : "") /> Nữ</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success">Cập nhật thông tin</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

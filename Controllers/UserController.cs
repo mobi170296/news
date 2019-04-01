@@ -15,9 +15,83 @@ namespace NewsApplication.Controllers
         {
 
         }
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            MySQLUtility connection = new MySQLUtility();
+            try
+            {
+                connection.Connect();
+                Authenticate auth = new Authenticate(connection);
+
+                User user = auth.GetUser();
+
+                if (user.IsLogin())
+                {
+                    return View(user);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Bạn chưa đăng nhập";
+                    return View("_Error");
+                }
+            }
+            catch (DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("_Error");
+            }
+        }
+        [HttpPost]
+        public ActionResult Index(User input)
+        {
+            MySQLUtility connection = new MySQLUtility();
+            User user = new User();
+            try
+            {
+                connection.Connect();
+                Authenticate authenticate = new Authenticate(connection);
+
+                user = authenticate.GetUser();
+
+                if (user.IsLogin())
+                {
+                    input.SetConnection(connection);
+
+                    //Thao tác đặt giá trị mặc định
+                    //Giá trị cho phép rỗng lastname
+                    input.lastname = input.lastname == null ? "" : input.lastname;
+
+
+                    input.CheckValidForFirstname().CheckValidForLastname().CheckValidForFirstname().CheckValidForPhone().CheckValidForEmail().CheckValidForGender();
+
+
+                    if(input.GetErrorsMap().Count() != 0)
+                    {
+                        throw new InputException(1, input.GetErrorsMap());
+                    }
+
+                    input.password = Request.Cookies["password"].Value;
+                    input.role = user.role;
+                    user.Update(input);
+
+                    ViewBag.SuccessMessage = "Cập nhật thông tin thành công";
+                    return View(user);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Bạn chưa đăng nhập";
+                    return View("_Error");
+                }
+            }catch(DBException e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View(user);
+            }catch(InputException e)
+            {
+                ViewBag.ErrorsMap = e.Errors;
+                return View(user);
+            }
         }
         [HttpGet]
         public ActionResult Register()
@@ -41,16 +115,16 @@ namespace NewsApplication.Controllers
             }
             catch (DBException e)
             {
-                ViewBag.error = e.Message;
+                ViewBag.ErrorMessage = e.Message;
                 return View("_Error");
             }
         }
         [HttpPost]
-        public ActionResult Register(User input)
+        public ActionResult Register(User input, string[] password)
         {
+            MySQLUtility connection = new MySQLUtility();
             try
             {
-                MySQLUtility connection = new MySQLUtility();
                 connection.Connect();
 
                 Authenticate auth = new Authenticate(connection);
@@ -63,6 +137,12 @@ namespace NewsApplication.Controllers
                 else
                 {
                     input.SetConnection(connection);
+                    if(password == null || password.Length != 2 || password[0] != password[1])
+                    {
+                        input.AddErrorMessage("retypepassword", "Nhập lại mật khẩu không trùng khớp!");
+                        input.password = password[0];
+                    }
+
                     if (!input.CheckValid())
                     {
                         throw new InputException(1, input.GetErrorsMap());
@@ -80,7 +160,7 @@ namespace NewsApplication.Controllers
                         Response.Cookies.Add(cusername);
                         Response.Cookies.Add(cpassword);
 
-                        return Content("Bạn đã đăng ký tài khoản thành công!");
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
