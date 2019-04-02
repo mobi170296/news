@@ -120,11 +120,13 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\editor.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\editor.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -165,10 +167,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InspectorController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
-    <Compile Include="Controllers\PostsController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\PostManageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UserManageController.cs" />
     <Compile Include="Exception\InputException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -183,6 +183,8 @@
     <Compile Include="Library\Database\MySQLUtility.cs" />
     <Compile Include="Models\Authenticate.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CategoryListModel.cs" />
+    <Compile Include="Models\PagePartitionModel.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostImage.cs" />
     <Compile Include="Models\User.cs" />
@@ -210,7 +212,6 @@
     <Content Include="Views\Layout\Footer.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
-    <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\Posts\Index.cshtml" />
@@ -218,6 +219,10 @@
     <Content Include="Views\CategoryManage\Add.cshtml" />
     <Content Include="Views\CategoryManage\Update.cshtml" />
     <Content Include="Views\CategoryManage\Delete.cshtml" />
+    <Content Include="Views\Posts\Page.cshtml" />
+    <Content Include="Views\PostShow\Index.cshtml" />
+    <Content Include="Views\PostManage\Index.cshtml" />
+    <Content Include="Views\PostManage\Add.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -229,7 +234,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Inspector\" />
-    <Folder Include="Views\UserManage\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

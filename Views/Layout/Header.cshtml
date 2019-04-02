@@ -20,7 +20,7 @@
                 if (ViewBag.user.HaveRole(NewsApplication.Models.User.JOURNALIST))
                 {
                     <div>
-                        @Html.ActionLink("Quản lý bài báo", "Index", "Posts")
+                        @Html.ActionLink("Quản lý bài báo", "Index", "PostManage")
                     </div>
                 }
                 if (ViewBag.user.HaveRole(NewsApplication.Models.User.INSPECTOR))
@@ -45,7 +45,7 @@
             {
                 foreach (Category category in ViewBag.categories)
                 {
-                    <div class="main-menu-item"><a href="@category.link">@category.name</a></div>
+                    <div class="main-menu-item"><a href="@Url.RouteUrl(new { controller = "PostShow", action = "Index", category = category.link })">@category.name</a></div>
                 }
             }
         </div>

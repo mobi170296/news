@@ -1,0 +1,43 @@
+﻿@using NewsApplication.Models
+
+
+@{ 
+    ViewBag.Title = "Quản lý tin ";
+}
+<div class="">
+    <div class="card">
+        <div class="card-header">
+            <h3>Quản lý tin tức</h3>
+        </div>
+        <div class="card-body">
+            @if(TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+            }
+            @Html.ActionLink("Đăng tin tức", "Add", "PostManage", new { @class = "btn btn-primary mt-3 mb-3" })
+            @if (ViewBag.posts == null || ViewBag.posts.Count == 0)
+            {
+                <div class="alert alert-info">Bạn chưa có bài nào! Hãy đăng thử xem!</div>
+            }
+            else
+            {
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Tiêu đề bài</th>
+                        <th>Tóm tắt nội dung</th>
+                        <th>Tạo lúc</th>
+                        <th>Sửa lúc</th>
+                    </tr>
+                    @foreach(Post post in ViewBag.posts)
+                    {
+                        <tr>
+                            <td>@post.title</td>
+                            <td>@post.summary</td>
+                            <td>@post.</td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
+    </div>
+</div>

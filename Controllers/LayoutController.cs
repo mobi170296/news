@@ -56,7 +56,7 @@ namespace NewsApplication.Controllers
             }
             catch (DBException e)
             {
-                return Content("Không thể load heading. Vui lòng tải lại trang web!");
+                return Content("Không thể load heading. Vui lòng tải lại trang web! " + e.Message);
             }
         }
         public PartialViewResult Footer()

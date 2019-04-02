@@ -97,7 +97,7 @@ namespace NewsApplication.Library.Database
                 this.connection = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["default"].ConnectionString);
             }catch(ConfigurationException e)
             {
-
+                throw new DBException(1, e.Message);
             }
         }
         public MySQLUtility(string cs)

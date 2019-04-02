@@ -307,7 +307,8 @@ namespace NewsApplication.Controllers
             }
             catch(DBException e)
             {
-                return View("~/Views/Shared/_Error.cshtml");
+                ViewBag.ErrorMessage = e.Message;
+                return View("_Error");
             }
 
             User user = new Authenticate(connection).GetUser();

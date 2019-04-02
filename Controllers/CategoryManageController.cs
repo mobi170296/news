@@ -196,9 +196,6 @@ namespace NewsApplication.Controllers
             {
                 ViewBag.ErrorMessage = e.Message;
                 return View();
-            }catch(InputException e)
-            {
-                return View();
             }
         }
         [HttpPost]
@@ -335,8 +332,8 @@ namespace NewsApplication.Controllers
                 if(user.IsLogin() && user.HaveRole(NewsApplication.Models.User.ADMIN))
                 {
                     Category category = new Category(connection);
-                    category.id = (int)id;
-                    if(id == null || !category.Load())
+                    category.id = id;
+                    if(!category.Load())
                     {
                         TempData["ErrorMessage"] = "Danh mục không tồn tại";
                         return RedirectToAction("Index");

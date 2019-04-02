@@ -1,0 +1,72 @@
+﻿@using NewsApplication.Models
+
+@{ 
+    ViewBag.Title = "Đăng bài mới";
+}
+
+<script type="text/javascript" src="~/Scripts/editor.js">
+
+</script>
+
+<div class="">
+    <div class="card">
+        <div class="card-header">
+            Đăng tin mới
+        </div>
+        <div class="card-body">
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+            @if(ViewBag.ErrorsMap != null)
+            {
+                <div class="alert alert-danger">
+                    @foreach(string key in ViewBag.ErrorsMap.Keys)
+                    {
+                        <div>@ViewBag.ErrorsMap[key]</div>
+                    }
+                </div>
+            }
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Danh mục bài</label>
+                    <div class="form-inline">
+                        <select class="form-control custom-select" name="category_id">
+                            @foreach(Category category in ViewBag.categories)
+                            {
+                                <option value="@category.id" @(ViewBag.postback != null && ViewBag.postback.category_id == category.id ? "selected" : "")>@category.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Tiêu đề bài</label>
+                    <input class="form-control" name="title" placeholder="Tiêu đề" value="@(ViewBag.postback != null ? ViewBag.postback.title : "")" autofocus />
+                </div>
+                <div class="form-group">
+                    <label>Tóm tắt nội dung</label>
+                    <textarea class="form-control" name="summary">@(ViewBag.postback != null ? ViewBag.postback.summary : "")</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Ảnh bìa</label>
+                    <input class="form-control-file" data-role="image-preview" type="file" name="poster" />
+                    <div class="image-preview"></div>
+                </div>
+                <div class="form-group">
+                    <label>Nội dung bài</label>
+                    <textarea name="content">@(ViewBag.postback != null ? ViewBag.postback.content : "")</textarea>
+                </div>
+                <button class="btn btn-outline-success" type="submit">Đăng bài</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var richeditor = new RichEditor($('textarea[name="content"]')[0]);
+    $('input[type="file"][data-role="image-preview"]').on('change', function (e) {
+        $(this).next().css('background-image', 'url(' + URL.createObjectURL(this.files[0]) + ')');
+    })
+</script>

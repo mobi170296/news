@@ -13,7 +13,7 @@ namespace NewsApplication
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("Admin", "Admin/{controller}/{action}/{id}", new { controller = "CategoryManage", action = "Index", id = -1 });
+            //routes.MapRoute("PostShow", "{category}-page", new { controller = "PostShow", action = "Index" });
 
             routes.MapRoute(
                 name: "Default",

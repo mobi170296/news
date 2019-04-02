@@ -50,7 +50,7 @@ namespace NewsApplication.Models
                 }
             }catch(DBException e)
             {
-
+                string s = e.Message;
             }
         }
         public User GetUser()

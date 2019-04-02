@@ -1,3 +1,14 @@
 ﻿@{ 
     ViewBag.Title = "Quản lý bài báo của bạn";
 }
+
+<style>
+</style>
+
+Danh sach bai dang
+<div>
+    @{ 
+        var model = new NewsApplication.Models.PagePartitionModel(7, 15);
+        Html.RenderPartial("Page", model);
+    }
+</div>

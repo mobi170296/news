@@ -1,0 +1,312 @@
+div.img-pro-context {
+    position: fixed;
+    display: inline-block;
+    background-color: rgba(238,238,238,0.9);
+    padding: 20px;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.3);
+    min-width: 150px;
+}
+div.image-preview{
+    width: 300px;
+    height: 300px;
+    margin: 5px auto;
+    background-size: contain;
+    border: 1px solid #eee;
+}
+
+    div.img-pro-context div.content {
+    }
+
+    div.img-pro-context div.footer {
+    }
+
+    div.img-pro-context input {
+        border: 1px solid #ccc;
+    }
+
+    div.img-pro-context div.footer button {
+        float: right;
+        padding: 5px 10px;
+        border: none;
+        margin: 3px;
+    }
+
+        div.img-pro-context div.footer button[data-role="apply"] {
+            background-color: #589204;
+            color: #fff;
+        }
+
+        div.img-pro-context div.footer button[data-role="close"] {
+            background-color: #c45a5a;
+            color: #fff;
+        }
+div.richeditor{
+    border: 1px solid #ddd;
+}
+div.richeditor div.toolbox {
+    border: 1px solid #eee;
+    background-color: #f8f8f8;
+    padding: 5px 10px;
+}
+div.richeditor div.content{
+    border: 1px solid #eee;
+    background-color: #eee;
+    resize: vertical;
+    overflow: auto;
+    height: 20em;
+}
+div.richeditor div.editor :focus{
+    outline: 1px dotted #000;
+}
+div.richeditor div.editor:focus {
+    outline: none;
+}
+
+div.editor *::selection{
+    background-color: #ddd;
+}
+
+div.editor *::-moz-selection{
+    background-color: #ddd;
+}
+
+div.richeditor div.content div.editor{
+    padding: 1px;
+    margin: 0px auto;
+    box-sizing: border-box;
+    width: 80%;
+    min-height: 100%;
+    background-color: #fff;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.2);
+}
+div.richeditor div.toolbox span.button{
+    margin: 5px;
+    padding: 5px;
+    border: 10px;
+    background-color: transparent;
+    background-image: url('editor-icons/icon.png');
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    width: 16px;
+    height: 16px;
+    box-sizing: content-box;
+    cursor: pointer;
+    float: left;
+}
+div.richeditor div.toolbox span.button:hover{
+    background-color: #eee;
+}
+
+div.richeditor .toolbox span.button.active {
+    background-color: #ccc;
+}
+div.toolbox span.button.boldButton{
+    background-position: 0px -23px;
+}
+div.toolbox span.button.insertUnorderedListButton{
+    background-position: 0px -1585px;
+}
+div.toolbox span.button.justifyCenterButton{
+    background-position: 0px -1368px;
+}
+div.toolbox span.button.insertHTMLButton{
+    background-position: 0px 0px;
+}
+div.toolbox span.button.foreColorButton{
+    background-position: 0px 0px;
+}
+div.toolbox span.button.copyButton{
+    background-position: 0px 0px;
+}
+div.toolbox span.button.cutButton{
+    background-position: 0px 0px;
+}
+div.toolbox span.button.fontNameButton{
+    background-position: 0px 0px;
+}
+div.toolbox span.button.insertHorizontalRuleButton{
+    background-position: 0px 0px;
+}
+div.toolbox span.button.insertImageButton{
+    background-position: 0px -1223px;
+}
+div.toolbox span.button.indentButton{
+    background-position: 0px -1776px;
+}
+div.toolbox span.button.italicButton{
+    background-position: 0px -47px;
+}
+div.toolbox span.button.justifyFullButton{
+    background-position: 0px -1344px;
+}
+div.toolbox span.button.justifyLeftButton{
+    background-position: 0px -1392px;
+}
+div.toolbox span.button.createLinkButton{
+    background-position: 0px -1512px;
+}
+div.toolbox span.button.insertOrderedListButton{
+    background-position: 0px -1632px;
+}
+div.toolbox span.button.outdentButton{
+    background-position: 0px -1752px;
+}
+div.toolbox span.button.redoButton{
+    background-position: 0px -2400px;
+}
+div.toolbox span.button.removeFormatButton{
+    background-position: 0px -1992px;
+}
+div.toolbox span.button.justifyRightButton{
+    background-position: 0px -1417px;
+}
+div.toolbox span.button.increaseFontSizeButton{
+    background-position: 0px 0px;
+}
+div.toolbox span.button.strikeThroughButton{
+    background-position: 0px -71px;
+}
+div.toolbox span.button.subscriptButton{
+    background-position: 0px -97px;
+}
+div.toolbox span.button.superscriptButton{
+    background-position: 0px -120px;
+}
+div.toolbox span.button.underlineButton{
+    background-position: 0px -144px;
+}
+div.toolbox span.button.undoButton{
+    background-position: 0px -2377px;
+}
+div.toolbox span.button.unlinkButton{
+    background-position: 0px -1537px;
+}
+div.toolbox span.button.decreaseFontSizeButton{
+    background-position: 0px 0px;
+}
+div.toolbox span.button.removeButton{
+    background-position: 0px -453px;
+}
+
+.richeditor-custom-select {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #eee;
+    background-color: white;
+    font-family: segoe ui;
+    color: #000;
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    margin: 2px;
+}
+
+    .richeditor-custom-select .custom-select-selected, .richeditor-custom-select .custom-select-item {
+        padding: 3px 5px;
+        background-color: white;
+        position: relative;
+        white-space: nowrap;
+        font-size: 10pt;
+    }
+
+    .richeditor-custom-select .custom-select-selected {
+        padding-right: 20px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        background-color: #eee;
+    }
+
+        .richeditor-custom-select .custom-select-selected::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 0px;
+            height: 0px;
+            border-width: 3px;
+            border-style: solid;
+            border-color: #000 transparent transparent transparent;
+        }
+
+    .richeditor-custom-select .custom-select-items {
+        position: absolute;
+        border: 1px solid #eee;
+        max-height: 7em;
+        overflow-y: scroll;
+    }
+
+    .richeditor-custom-select .custom-select-item {
+        white-space: nowrap;
+    }
+        .richeditor-custom-select .custom-select-item.active {
+            background-color: #eee;
+            color: #000;
+        }
+
+        .richeditor-custom-select .custom-select-item:hover {
+            background-color: #eee;
+            color: #000;
+        }
+.clearfix::after {
+    clear: both;
+    content: '';
+    display: block;
+}
+.u-hidden {
+    display: none !important;
+}
+
+.u-block {
+    display: block;
+}
+
+.u-iblock {
+    display: inline-block;
+}
+
+div.color-control {
+    display: inline-block;
+    position: relative;
+    border: 1px solid #ccc;
+    margin: 0px 3px;
+}
+
+div.color-control span.color-node {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0,0,0,0.1);
+    display: inline-block;
+    box-sizing: border-box;
+    float: left;
+    margin: 2px;
+    cursor: pointer;
+}
+
+div.color-control div.color-table {
+    background-color: #fff;
+    position: absolute;
+    display: block;
+    top: 24px;
+    left: 0px;
+    width: 96px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+}
+
+span.color-control-dropdown {
+    height: 24px;
+    width: 16px;
+    background-color: #ddd;
+    display: inline-block;
+    position: relative;
+    float: left;
+}
+
+span.color-control-dropdown::after {
+    content: '';
+    border-width: 3px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+    position: absolute;
+    top: 10px;
+    left: 5px;
+}

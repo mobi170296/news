@@ -8,11 +8,9 @@ namespace NewsApplication.Library.Database
     public class DBException : System.Exception
     {
         private uint code;
-        private string message;
-        public DBException(uint code, string message)
+        public DBException(uint code, string message) : base(message)
         {
             this.code = code;
-            this.message = message;
         }
         public uint Code
         {
@@ -23,17 +21,6 @@ namespace NewsApplication.Library.Database
             set
             {
                 this.code = value;
-            }
-        }
-        public string Message
-        {
-            get
-            {
-                return this.message;
-            }
-            set
-            {
-                this.message = value;
             }
         }
     }

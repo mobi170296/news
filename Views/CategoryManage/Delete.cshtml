@@ -27,10 +27,10 @@
                 }
             </div>
         }
-        <form action="" method="post">
-            <input type="hidden" name="id" value="@Model.id" />
-            <button class="btn btn-outline-danger">Xóa</button>
-            @Html.ActionLink("Trở về danh sách danh mục", "Index", "CategoryManage", new { @class = "btn btn-link" })
-        </form>
+    <form action="" method="post">
+        <input type="hidden" name="id" value="@Model.id" />
+        <button class="btn btn-outline-danger">Xóa</button>
+        @Html.ActionLink("Trở về danh sách danh mục", "Index", "CategoryManage", new { }, new { @class = "btn btn-link" })
+    </form>
     </div>
 </div>
