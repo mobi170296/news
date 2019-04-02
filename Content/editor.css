@@ -12,6 +12,8 @@ div.image-preview{
     margin: 5px auto;
     background-size: contain;
     border: 1px solid #eee;
+    background-repeat: no-repeat;
+    background-position: 50%;
 }
 
     div.img-pro-context div.content {

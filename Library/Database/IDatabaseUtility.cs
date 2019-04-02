@@ -25,5 +25,6 @@ namespace NewsApplication.Library.Database
         int Update(string table, SortedList<string,IDBDataType> nvp, string where);
         int Delete(string table, string where);
         IDataReader Query(string sql);
+        long GetLastInsertedId();
     }
 }

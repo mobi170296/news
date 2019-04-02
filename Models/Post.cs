@@ -125,7 +125,13 @@ namespace NewsApplication.Models
                     this.title = result.GetString("title");
                     this.created_time = result.GetDateTime("created_time");
                     this.valid = result.GetInt32("valid");
-                    this.inspector_id = result.GetInt32("inspector_id");
+                    try
+                    {
+                        this.inspector_id = result.GetInt32("inspector_id");
+                    }catch
+                    {
+                        this.inspector_id = -1;
+                    }
                     this.modified_time = result.GetDateTime("modified_time");
                     this.summary = result.GetString("summary");
                     return true;

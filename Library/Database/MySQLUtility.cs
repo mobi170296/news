@@ -13,6 +13,7 @@ namespace NewsApplication.Library.Database
         public MySqlConnection connection;
         public string cquery = "";
         private string _select, _from, _join, _on, _where, _groupby, _having, _orderby, _order= "ASC", _limit;
+        public long insert_id;
         public IDatabaseUtility select(string s)
         {
             this._select = s;
@@ -69,6 +70,10 @@ namespace NewsApplication.Library.Database
         {
             this._order = "DESC";
             return this;
+        }
+        public long GetLastInsertedId()
+        {
+            return this.insert_id;
         }
         public IDataReader Execute()
         {
@@ -135,7 +140,9 @@ namespace NewsApplication.Library.Database
                 command.CommandType = System.Data.CommandType.Text;
                 command.CommandText = query;
                 this.cquery = query;
-                return command.ExecuteNonQuery();
+                int c = command.ExecuteNonQuery();
+                this.insert_id = command.LastInsertedId;
+                return c;
             }catch(MySqlException e)
             {
                 throw new DBException(e.Code, e.Message);
