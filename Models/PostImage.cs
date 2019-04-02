@@ -9,6 +9,7 @@ namespace NewsApplication.Models
 {
 	public class PostImage
 	{
+        public const string POSTER_IMAGE_DIR = "~/upload/posters/";
         public int id { get; set; }
         public int post_id { get; set; }
         public string path { get; set; }

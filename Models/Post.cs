@@ -22,6 +22,9 @@ namespace NewsApplication.Models
         public int inspector_id { get; set; }
         public IDatabaseUtility connection;
         public SortedList<string, string> errorsmap;
+
+        public PostImage poster { get; set; }
+
         public Post()
         {
             this.id = -1;
@@ -134,12 +137,22 @@ namespace NewsApplication.Models
                     }
                     this.modified_time = result.GetDateTime("modified_time");
                     this.summary = result.GetString("summary");
-                    return true;
                 }
                 else
                 {
                     return false;
                 }
+            }
+
+            using (IDataReader result = this.connection.select("*").from("postimage").where("post_id=" + this.id).Execute())
+            {
+                result.Read();
+                this.poster = new PostImage();
+                this.poster.id = (int)result["id"];
+                this.poster.created = (DateTime)result["created"];
+                this.poster.path = (string)result["path"];
+                this.poster.post_id = this.id;
+                return true;
             }
         }
         public bool Add()
@@ -189,7 +202,7 @@ namespace NewsApplication.Models
         }
         public bool IsShown()
         {
-            return this.valid != 1;
+            return this.valid != 0;
         }
         public bool IsHidden()
         {

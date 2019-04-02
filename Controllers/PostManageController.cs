@@ -15,7 +15,7 @@ namespace NewsApplication.Controllers
     public class PostManageController : Controller
     {
         // GET: PostManage
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             IDatabaseUtility connection = new MySQLUtility();
 
@@ -25,7 +25,7 @@ namespace NewsApplication.Controllers
             }catch(DBException e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                return View("_error");
+                return View("_errors");
             }
 
             try
@@ -35,36 +35,21 @@ namespace NewsApplication.Controllers
 
                 if (user.IsLogin() && user.HaveRole(NewsApplication.Models.User.JOURNALIST))
                 {
-                    List<int> ids = new List<int>();
-                    using (MySqlDataReader result = (MySqlDataReader)connection.select("*").from("post").where("journalist_id=" + user.id).Execute())
-                    {
-                        while (result.Read())
-                        {
-                            ids.Add(result.GetInt32("id"));
-                        }
-                    }
-
-                    ViewBag.posts = new List<Post>();
-
-                    foreach(int id in ids)
-                    {
-                        Post post = new Post(connection);
-                        post.id = id;
-                        post.Load();
-                        ViewBag.posts.Add(post);
-                    }
-
+                    PostListModel list = new PostListModel(connection);
+                    ViewBag.posts = list.GetLimit((page - 1) * 10, 10);
+                    int total = list.GetTotal();
+                    ViewBag.pagepartition = new PagePartitionModel("Index", "PostManage", page, (int)Math.Ceiling(total /10.0));
                     return View();
                 }
                 else
                 {
                     ViewBag.ErrorMessage = "Bạn không có quyền truy cập";
-                    return View("_error");
+                    return View("_errors");
                 }
             }catch(DBException e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                return View("_error");
+                return View("_errors");
             }
         }
         [HttpGet]
@@ -78,7 +63,7 @@ namespace NewsApplication.Controllers
             catch (DBException e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                return View("_error");
+                return View("_errors");
             }
 
             try
@@ -109,7 +94,7 @@ namespace NewsApplication.Controllers
                 else
                 {
                     ViewBag.ErrorMessage = "Bạn không có quyền truy cập vào đây";
-                    return View("_error");
+                    return View("_errors");
                 }
             }catch(DBException e)
             {
@@ -129,7 +114,7 @@ namespace NewsApplication.Controllers
             }catch(DBException e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                return View("_error");
+                return View("_errors");
             }
 
 
@@ -156,9 +141,10 @@ namespace NewsApplication.Controllers
                         post.journalist_id = user.id;
                         post.Add();
                         image.post_id = (int)connection.GetLastInsertedId();
-                        image.path = "" + image.post_id + "_" + new Random().Next() + "." + System.IO.Path.GetExtension(poster.FileName);
+                        image.path = "" + image.post_id + "_" + new Random().Next() + System.IO.Path.GetExtension(poster.FileName);
                         image.Add();
-                        poster.SaveAs(Server.MapPath("~/upload/posters/" + image.path));
+
+                        poster.SaveAs(Server.MapPath(PostImage.POSTER_IMAGE_DIR + image.path));
                         TempData["SuccessMessage"] = "Bạn đã đăng bài thành công hãy tìm nhà kiểm duyệt để duyệt bài của bạn và hiển thị nó";
                         return RedirectToAction("Index");
                     }
@@ -171,17 +157,22 @@ namespace NewsApplication.Controllers
                 else
                 {
                     ViewBag.ErrorMessage = "Bạn không thể truy cập trang web này";
-                    return View("_error");
+                    return View("_errors");
                 }
             }catch(DBException e)
             {
                 ViewBag.ErrorMessage = "" + e.Message;
-                return View("_error");
+                return View("_errors");
             }catch(InputException e)
             {
                 ViewBag.ErrorsMap = e.Errors;
                 return View();
             }
+        }
+        [HttpGet]
+        public ActionResult Update(int? id)
+        {
+            return View();
         }
     }
 }

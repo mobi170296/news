@@ -1,0 +1,63 @@
+﻿@model NewsApplication.Models.PagePartitionModel
+
+<div class="page-partition">
+    @if (Model.TotalPage <= 11)
+    {
+        for (var i = 1; i <= Model.TotalPage; i++)
+        {
+            <span>@Html.ActionLink(i + "", Model.Action, Model.Controller, new { p = i }, new { @class = "btn btn-primary " + (i == Model.CurrentPage ? "focus" : "") })</span>
+        }
+    }
+    else
+    {
+        var startmiddle = Model.CurrentPage - 2;
+        var endmiddle = Model.CurrentPage + 2;
+
+        if (startmiddle > 4 && endmiddle < Model.TotalPage - 3)
+        {
+            //nam o giua
+            //123 .. xxx .. yyy
+            for (var i = 1; i <= 3; i++)
+            {
+                <span>@Html.ActionLink(i + "", Model.Action, Model.Controller, new { p = i }, new { @class = "btn btn-primary " + (i == Model.CurrentPage ? "focus" : "") })</span>
+            }
+            <span>...</span>
+            for (var i = startmiddle; i <= endmiddle; i++)
+            {
+                <span>@Html.ActionLink(i + "", Model.Action, Model.Controller, new { p = i }, new { @class = "btn btn-primary " + (i == Model.CurrentPage ? "focus" : "") })</span>
+            }
+            <span>...</span>
+            for (var i = Model.TotalPage - 2; i <= Model.TotalPage; i++)
+            {
+                <span>@Html.ActionLink(i + "", Model.Action, Model.Controller, new { p = i }, new { @class = "btn btn-primary " + (i == Model.CurrentPage ? "focus" : "") })</span>
+            }
+        }
+        else
+        {
+            if (startmiddle <= 4)
+            {
+                for (var i = 1; i <= endmiddle; i++)
+                {
+                    <span>@Html.ActionLink(i + "", Model.Action, Model.Controller, new { p = i }, new { @class = "btn btn-primary " + (i == Model.CurrentPage ? "focus" : "") })</span>
+                }
+                <span>...</span>
+                for (var i = Model.TotalPage - 2; i <= Model.TotalPage; i++)
+                {
+                    <span>@Html.ActionLink(i + "", Model.Action, Model.Controller, new { p = i }, new { @class = "btn btn-primary " + (i == Model.CurrentPage ? "focus" : "") })</span>
+                }
+            }
+            else
+            {
+                for (var i = 1; i <= 3; i++)
+                {
+                    <span>@Html.ActionLink(i + "", Model.Action, Model.Controller, new { p = i }, new { @class = "btn btn-primary " + (i == Model.CurrentPage ? "focus" : "") })</span>
+                }
+                <span>...</span>
+                for (var i = startmiddle; i <= Model.TotalPage; i++)
+                {
+                    <span>@Html.ActionLink(i + "", Model.Action, Model.Controller, new { p = i }, new { @class = "btn btn-primary " + (i == Model.CurrentPage ? "focus" : "") })</span>
+                }
+            }
+        }
+    }
+</div>

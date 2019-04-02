@@ -20,6 +20,7 @@ namespace NewsApplication.Library.Database
         IDatabaseUtility orderby(string s);
         IDatabaseUtility asc();
         IDatabaseUtility desc();
+        IDatabaseUtility limit(int f, int t);
         IDataReader Execute();
         int Insert(string table, SortedList<string,IDBDataType> data);
         int Update(string table, SortedList<string,IDBDataType> nvp, string where);

@@ -56,9 +56,9 @@ namespace NewsApplication.Library.Database
             this._orderby = s;
             return this;
         }
-        public IDatabaseUtility limit(string s)
+        public IDatabaseUtility limit(int s, int t)
         {
-            this._limit = s;
+            this._limit = s + "," + t;
             return this;
         }
         public IDatabaseUtility asc()

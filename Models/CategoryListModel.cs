@@ -40,5 +40,27 @@ namespace NewsApplication.Models
             }
             return this.list;
         }
+        public List<Category> GetLimit(int from, int total)
+        {
+            this.list.Clear();
+            List<int> ids = new List<int>();
+            using (IDataReader result = this.connection.select("*").from("post").limit(from, total).Execute())
+            {
+                while (result.Read())
+                {
+                    ids.Add((int)result["id"]);
+                }
+            }
+
+            foreach (int id in ids)
+            {
+                Category cate = new Category(this.connection);
+                cate.id = id;
+                cate.Load();
+                this.list.Add(cate);
+            }
+
+            return this.list;
+        }
     }
 }

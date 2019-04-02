@@ -9,6 +9,7 @@ namespace NewsApplication.Models
     {
         private int totalpage, currentpage = 1;
         private string action, controller;
+
         public int TotalPage
         {
             get
@@ -58,6 +59,10 @@ namespace NewsApplication.Models
             this.totalpage = tp;
             this.currentpage = cp;
         }
-
+        public PagePartitionModel(string action, string controller, int cp, int tp) : this(cp, tp)
+        {
+            this.controller = controller;
+            this.action = action;
+        }
     }
 }
