@@ -323,5 +323,24 @@ namespace NewsApplication.Models
         {
             this.errorsmap[name] = value;
         }
+        public bool Load()
+        {
+            using (IDataReader result = this.connection.select("*").from("user").where("id=" + this.id).Execute())
+            {
+                if (!result.Read())
+                {
+                    return false;
+                }
+                this.username = (string)result["username"];
+                this.phone = (string)result["phone"];
+                this.firstname = (string)result["firstname"];
+                this.lastname = (string)result["lastname"];
+                this.role = (int)result["role"];
+                this.gender = (int)result["gender"];
+                this.email = (string)result["email"];
+            }
+
+            return true;
+        }
     }
 }

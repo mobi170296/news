@@ -508,7 +508,8 @@ function RichEditor(textarea) {
     //references objects
     this.editor.textarea = textarea;
     this.editor.richeditor = this;
-    $(this.editor).html($(textarea).html());
+    //set innerHTML => value
+    $(this.editor).html($(textarea).val());
     $(this.editor).addClass('editor');
     $(this.editor).on('input', function (e) {
         $('div.richeditor div.editor *').attr('tabindex', 0);

@@ -24,6 +24,8 @@ namespace NewsApplication.Models
         public SortedList<string, string> errorsmap;
 
         public PostImage poster { get; set; }
+        public User journalist { get; set; }
+        public User inspector { get; set; }
 
         public Post()
         {
@@ -146,14 +148,33 @@ namespace NewsApplication.Models
 
             using (IDataReader result = this.connection.select("*").from("postimage").where("post_id=" + this.id).Execute())
             {
-                result.Read();
+                if(!result.Read()){
+                    return false;
+                }
+                    
                 this.poster = new PostImage();
                 this.poster.id = (int)result["id"];
                 this.poster.created = (DateTime)result["created"];
                 this.poster.path = (string)result["path"];
                 this.poster.post_id = this.id;
-                return true;
+                
             }
+
+            this.journalist = new User(this.connection);
+            this.journalist.id = this.journalist_id;
+            if (!this.journalist.Load())
+            {
+                return false;
+            }
+
+            this.inspector = new User(this.connection);
+            this.inspector.id = this.inspector_id;
+            if (!this.inspector.Load())
+            {
+                return false;
+            }
+
+            return true;
         }
         public bool Add()
         {

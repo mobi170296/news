@@ -33,7 +33,7 @@
                     @foreach(Post post in ViewBag.posts)
                     {
                         <tr>
-                            <td>@Html.Raw(post.IsShown() ? "<span style=\"color:green;white-space:nowrap\">Đã duyệt</span>" : "<span style=\"color:red;white-space:nowrap\">Chưa duyệt</span>")</td>
+                            <td><a class="btn btn-link" href="@Url.Action("Index", "Posts", new { id = post.id})">@Html.Raw(post.IsShown() ? "<span style=\"color:green;white-space:nowrap\">Đã duyệt</span>" : "<span style=\"color:red;white-space:nowrap\">Chưa duyệt</span>")</a></td>
                             <td>@post.title</td>
                             <td>@post.summary</td>
                             <td>@post.created_time.Hour:@post.created_time.Minute:@post.created_time.Second<br/>@post.created_time.Day/@post.created_time.Month/@post.created_time.Year</td>

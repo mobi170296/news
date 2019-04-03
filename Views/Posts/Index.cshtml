@@ -1,14 +1,28 @@
-﻿@{ 
-    ViewBag.Title = "Quản lý bài báo của bạn";
+﻿@model NewsApplication.Models.Post
+
+@{
+    ViewBag.Title = Model.title;
 }
 
-<style>
-</style>
-
-Danh sach bai dang
 <div>
-    @{ 
-        var model = new NewsApplication.Models.PagePartitionModel(7, 15);
-        Html.RenderPartial("Page", model);
-    }
+
+    <div class="artical">
+        <div class="title">
+            <h1>@Model.title</h1>
+        </div>
+        <div class="info">
+            <div><label>Đăng bởi: </label> <span>@Model.journalist.lastname @Model.journalist.firstname</span></div>
+            <div class="createtime">@Model.created_time</div>
+        </div>
+        <div class="summary">
+            @Model.summary
+        </div>
+        <div class="content">
+            @Html.Raw(Model.content)
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Về Trang chủ", "Index", "Home", new {}, new { @class = "btn btn-link" })
+    </div>
 </div>
